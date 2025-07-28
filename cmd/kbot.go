@@ -32,7 +32,9 @@ to quickly create a Cobra application.`,
 		if TeleToken == "" {
 			log.Fatal("TELE_TOKEN is not set")
 		}
+
 		fmt.Printf("kbot %s started ", appVersion)
+
 		kbot, err := telebot.NewBot(telebot.Settings{
 			URL:    "",
 			Token:  TeleToken,
@@ -40,12 +42,21 @@ to quickly create a Cobra application.`,
 		})
 
 		if err != nil {
-			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
+			log.Fatalf("The following error occurs %s", err)
 		}
 
 		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
 			log.Print(m.Message().Payload, m.Text())
-			return nil
+			payload := m.Message().Payload
+
+			switch payload {
+			case "hello":
+				err = m.Send(fmt.Sprintf("Hello I'm kbot version - %s", appVersion))
+			default:
+				err = m.Send("Payload does not contain hello message")
+			}
+
+			return err
 		})
 
 		kbot.Start()
