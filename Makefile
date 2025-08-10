@@ -1,6 +1,8 @@
 APP=$(shell basename $(shell git remote get-url origin))
 REGISTRY=ghcr.io/kozubenko
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
+TARGETOS=linux
+TARGETARCH=amd64
 
 format: 
 	gofmt -s -w ./
@@ -29,6 +31,9 @@ macOS_arm64:
 windows:
 	$(MAKE) build TARGETOS=windows TARGETARCH=amd64	
 
+image:
+	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .	
+
 image_linux:
 	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .
 
@@ -40,6 +45,9 @@ image_macOS_arm64:
 
 image_windows:
 	docker build --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 -t ${REGISTRY}/${APP}:${VERSION}-windows-amd64 .
+
+push:
+	docker push ${REGISTRY}/${APP}:${VERSION}-linux-amd64
 
 push_linux:
 	docker push ${REGISTRY}/${APP}:${VERSION}-linux-amd64
