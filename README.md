@@ -1,6 +1,4 @@
-You got it\! Here's the full, copy-paste-ready Markdown for your `README.md` file.
 
------
 
 ## **kbot** 🤖
 
