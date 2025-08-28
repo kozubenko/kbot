@@ -5,21 +5,21 @@ TARGETOS=linux
 TARGETARCH=amd64
 TELE_TOKEN=111
 
-format: 
+format:
 	gofmt -s -w ./
 
-lint: 
+lint:
 	go vet ./...
 
 get:
-	go get 
+	go get
 
 test:
 	go test -v
 
 build: format get
 	@echo "Building for TARGETOS=${TARGETOS} and TARGETARCH=${TARGETARCH} and VERSION=${VERSION}"
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/kozubenko/kbot/cmd.appVersion=${VERSION} TELE_TOKEN=${TELE_TOKEN}
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/kozubenko/kbot/cmd.appVersion=${VERSION}
 
 linux: build
 
@@ -30,22 +30,21 @@ macOS_arm64:
 	$(MAKE) build TARGETOS=darwin TARGETARCH=arm64
 
 windows:
-	$(MAKE) build TARGETOS=windows TARGETARCH=amd64	
+	$(MAKE) build TARGETOS=windows TARGETARCH=amd64
 
-image:
-	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .	
+image: image_linux
 
 image_linux:
-	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .
+	DOCKER_BUILDKIT=1 docker build --no-cache --build-arg TARGETOS=${TARGETOS} --build-arg TARGETARCH=${TARGETARCH} --secret id=tele_token,env=TELE_TOKEN -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .
 
 image_macOS:
-	docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-darwin-amd64 .
+	DOCKER_BUILDKIT=1 docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=amd64-t ${REGISTRY}/${APP}:${VERSION}-darwin-amd64 .
 
 image_macOS_arm64:
-	docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=arm64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-darwin-arm64 .
+	DOCKER_BUILDKIT=1 docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=arm64 -t ${REGISTRY}/${APP}:${VERSION}-darwin-arm64 .
 
 image_windows:
-	docker build --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-windows-amd64 .
+	DOCKER_BUILDKIT=1 docker build --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 -t ${REGISTRY}/${APP}:${VERSION}-windows-amd64 .
 
 push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-linux-amd64
