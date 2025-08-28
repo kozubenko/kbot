@@ -7,8 +7,8 @@ TARGETARCH=amd64
 format: 
 	gofmt -s -w ./
 
-link: 
-	golint
+lint: 
+	go vet ./...
 
 get:
 	go get 
