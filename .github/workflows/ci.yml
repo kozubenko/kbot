@@ -22,6 +22,7 @@ jobs:
 
     - name: RUN LINTER
       run: make lint
+      
   build:
     runs-on: ubuntu-latest
     steps:
