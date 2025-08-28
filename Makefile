@@ -3,7 +3,7 @@ REGISTRY=ghcr.io/kozubenko
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux
 TARGETARCH=amd64
-TELE_TOKEN=8205141690:AAGwlnk6NNkMBfPmhgsGE8bNW-CZwp4KCwU
+TELE_TOKEN=111
 
 format: 
 	gofmt -s -w ./
@@ -19,7 +19,7 @@ test:
 
 build: format get
 	@echo "Building for TARGETOS=${TARGETOS} and TARGETARCH=${TARGETARCH} and VERSION=${VERSION}"
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/kozubenko/kbot/cmd.appVersion=${VERSION}
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="github.com/kozubenko/kbot/cmd.appVersion=${VERSION} TELE_TOKEN=${TELE_TOKEN}
 
 linux: build
 
