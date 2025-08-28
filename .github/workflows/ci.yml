@@ -42,7 +42,7 @@ jobs:
       with:
         registry: ghcr.io
         username: kozubenko
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ secrets.GHCR_PAT }}
 
     - name: PUSH DOCKER IMAGE
       run: make push_linux 
