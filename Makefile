@@ -3,7 +3,7 @@ REGISTRY=ghcr.io/kozubenko
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux
 TARGETARCH=amd64
-TELE_TOKEN=token
+TELE_TOKEN=8205141690:AAGwlnk6NNkMBfPmhgsGE8bNW-CZwp4KCwU
 
 format: 
 	gofmt -s -w ./
@@ -36,16 +36,16 @@ image:
 	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .	
 
 image_linux:
-	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=$$TELE_TOKEN -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .
+	docker build --no-cache --build-arg TARGETOS=linux --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-linux-amd64 .
 
 image_macOS:
-	docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=$$TELE_TOKEN -t ${REGISTRY}/${APP}:${VERSION}-darwin-amd64 .
+	docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-darwin-amd64 .
 
 image_macOS_arm64:
-	docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=arm64 --build-arg TELE_TOKEN=$$TELE_TOKEN -t ${REGISTRY}/${APP}:${VERSION}-darwin-arm64 .
+	docker build --build-arg TARGETOS=darwin --build-arg TARGETARCH=arm64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-darwin-arm64 .
 
 image_windows:
-	docker build --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=$$TELE_TOKEN -t ${REGISTRY}/${APP}:${VERSION}-windows-amd64 .
+	docker build --build-arg TARGETOS=windows --build-arg TARGETARCH=amd64 --build-arg TELE_TOKEN=${TELE_TOKEN} -t ${REGISTRY}/${APP}:${VERSION}-windows-amd64 .
 
 push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-linux-amd64
