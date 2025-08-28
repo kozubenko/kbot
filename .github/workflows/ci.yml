@@ -37,5 +37,12 @@ jobs:
     - name: BUILD
       run: make image_linux 
 
+    - name: Log in to GHCR
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }} 
+
     - name: PUSH DOCKER IMAGE
       run: make push_linux 
