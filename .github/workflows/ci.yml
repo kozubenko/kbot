@@ -36,3 +36,6 @@ jobs:
 
     - name: BUILD
       run: make image_linux 
+
+    - name: PUSH DOCKER IMAGE
+      run: make push_linux 
