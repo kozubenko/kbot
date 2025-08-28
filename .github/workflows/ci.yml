@@ -10,8 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-
-  build:
+  linter:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -23,3 +22,15 @@ jobs:
 
     - name: RUN LINTER
       run: make lint
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: SET UP GO
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.24'
+
+    - name: BUILD
+      run: make image_linux 
