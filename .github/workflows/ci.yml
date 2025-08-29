@@ -71,7 +71,7 @@ jobs:
      - name: Update current version
        uses: mikefarah/yq@3.3.2
        with: 
-         cmd: yq w -i helm/values.yaml image.tag ${{ steps.vars.outputs.tag }}-${{ steps.vars.outputs.sha_short }}
+         cmd: yq w -i helm/values.yaml image.tag ${{ steps.vars.outputs.tag }}-${{ steps.vars.outputs.sha_short }}-linux
         
      - name: Setup git config
        run: |
