@@ -10,7 +10,8 @@ jobs:
   linter:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: CHECKOUT CODE
+      uses: actions/checkout@v4
 
     - name: SET UP GO
       uses: actions/setup-go@v4
@@ -55,13 +56,13 @@ jobs:
       contents: write 
  
     steps:
-     - name: Checkout code
+     - name: CHECKOUT CODE
        uses: actions/checkout@v4
        with: 
          fetch-depth: 0 
          fetch-tags: true
    
-     - name: Declare SHA and Tag vars
+     - name: DECLARE VARIABLES
        id: vars
        shell: bash
        run: |
@@ -73,14 +74,14 @@ jobs:
        with: 
          cmd: yq w -i helm/values.yaml image.tag ${{ steps.vars.outputs.tag }}-${{ steps.vars.outputs.sha_short }}
         
-     - name: Setup git config
+     - name: SETUP GIT CONFIG
        run: |
          git config user.name "GitHub Actions"
          git config user.email "<>"
          git add helm/values.yaml
          git commit -m "update code version to ${{ steps.vars.outputs.sha_short }}"
      
-     - name: Push changes
+     - name: PUSH CHANGES
        uses: ad-m/github-push-action@master
        with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
