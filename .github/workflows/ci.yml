@@ -46,3 +46,42 @@ jobs:
 
     - name: PUSH DOCKER IMAGE
       run: make push_linux 
+
+  cd:
+    name: CD
+    needs: ['linter', 'build']
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+ 
+    steps:
+     - name: Checkout code
+       uses: actions/checkout@v4
+       with: 
+         fetch-depth: 0 
+         fetch-tags: true
+   
+     - name: Declare SHA and Tag vars
+       id: vars
+       shell: bash
+       run: |
+         echo "sha_short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+         echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+   
+     - name: Update current version
+       uses: mikefarah/yq@3.3.2
+       with: 
+         cmd: yq w -i helm/values.yaml image.tag ${{ steps.vars.outputs.tag }}-${{ steps.vars.outputs.sha_short }}
+        
+     - name: Setup git config
+       run: |
+         git config user.name "GitHub Actions"
+         git config user.email "<>"
+         git add helm/values.yaml
+         git commit -m "update code version to ${{ steps.vars.outputs.sha_short }}"
+     
+     - name: Push changes
+       uses: ad-m/github-push-action@master
+       with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main    
