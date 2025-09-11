@@ -8,6 +8,7 @@ on:
 
 jobs:
   linter:
+    name: LINTER
     runs-on: ubuntu-latest
     steps:
     - name: CHECKOUT CODE
@@ -22,6 +23,7 @@ jobs:
       run: make lint
 
   build:
+    name: BUILD AND PUSH DOCKER IMAGE
     runs-on: ubuntu-latest
     needs: linter
     steps:
@@ -38,7 +40,7 @@ jobs:
     - name: BUILD
       run: make image_linux
 
-    - name: Log in to GHCR
+    - name: LOG IN TO GHCR
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
@@ -85,4 +87,4 @@ jobs:
        uses: ad-m/github-push-action@master
        with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: develop    
+        branch: develop 
