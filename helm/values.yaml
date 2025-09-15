@@ -4,9 +4,11 @@
 
 replicaCount: 1
 image:
-  repository: ghcr.io/kozubenko/kbot.gitc
+  registry: ghcr.io
+  repository: kozubenko/kbot
   pullPolicy: IfNotPresent
-  tag: v1.0.5-a340650
+  tag: v1.0.5-7dde669
+  os: linux
   arch: amd64
 secret:
   name: kbot
