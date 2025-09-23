@@ -93,6 +93,7 @@ jobs:
          git config user.name "GitHub Actions"
          git config user.email "<>"
          git add helm/values.yaml
+         git add helm/Chart.yaml
          git commit -m "update code version to ${{ steps.vars.outputs.sha_short }}"
      
      - name: PUSH CHANGES
