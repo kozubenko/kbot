@@ -7,7 +7,7 @@ image:
   registry: ghcr.io
   repository: kozubenko/kbot
   pullPolicy: IfNotPresent
-  tag: v1.0.5-326d4a5
+  tag: v1.0.5-13b2bda
   os: linux
   arch: amd64
 secret:
