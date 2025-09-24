@@ -64,3 +64,6 @@ push_windows:
 clean:
 	rm -f kbot
 	docker images "${REGISTRY}/${APP}" --format "{{.ID}}" | xargs docker rmi
+
+install_hooks:
+	sh scripts/githooks/install-hooks.sh --enable-gitleaks

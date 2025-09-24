@@ -75,6 +75,7 @@ This Makefile simplifies the process of building, testing, and managing Docker i
 | `test`   | Executes the Go unit tests.                           |
 | `build`  | Builds the `kbot` binary for the specified platform.  |
 | `clean`  | Removes the built binary and all local Docker images. |
+| `install_hooks` | Pre-commit hook will be installed. For now it contains gitleak check |
 
 #### **Platform-Specific Targets**
 
@@ -101,3 +102,20 @@ This section shows the targets used to build and push Docker images for differen
 | `push_macOS`              | Pushes the macOS Intel image to the registry. |
 | `push_macOS_arm64`        | Pushes the macOS Apple Silicon image to the registry. |
 | `push_windows`            | Pushes the Windows image to the registry.      |
+
+
+#### **GitLeaks**
+
+Before using GitLeaks, install the git hooks:
+
+```bash
+make install_hooks
+```
+
+Once installed, GitLeaks will automatically check your repository for secrets on every commit.
+If any leaks are detected, a report will be generated at: `gitleaks-report.json`. This file is added to `.gitignore`
+
+Please resolve any issues before committing and try again.
+The configuration file can be found at: `scripts/githooks/.gitleaks.toml`
+
+For more information about GitLeaks, visit the [official GitHub repository](https://github.com/gitleaks).
