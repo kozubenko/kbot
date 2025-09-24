@@ -1,0 +1,10 @@
+#!/bin/sh
+
+REPO_DIR=$(git rev-parse --show-toplevel)
+
+echo "Running gitleaks..."
+echo "Directory to check: $REPO_DIR"
+
+docker pull zricethezav/gitleaks:latest
+
+docker run --rm -v "$REPO_DIR:/path" zricethezav/gitleaks:latest git --log-opts="--all" --config=/path/scripts/githooks/.gitleaks.toml --report-path=/path/gitleaks-report.json --report-format=json /path

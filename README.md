@@ -75,6 +75,7 @@ This Makefile simplifies the process of building, testing, and managing Docker i
 | `test`   | Executes the Go unit tests.                           |
 | `build`  | Builds the `kbot` binary for the specified platform.  |
 | `clean`  | Removes the built binary and all local Docker images. |
+| `install_hooks` | Install everything related to githooks.        |
 
 #### **Platform-Specific Targets**
 

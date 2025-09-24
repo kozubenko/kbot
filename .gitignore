@@ -3,3 +3,5 @@ ops/infrastructure/.terraform.lock.hcl
 ops/infrastructure/terraform.tfvars
 ops/infrastructure/terraform.tfstate
 ops/infrastructure/terraform.tfstate.backup
+
+gitleaks-report.json
