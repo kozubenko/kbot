@@ -112,10 +112,13 @@ Before using GitLeaks, install the git hooks:
 make install_hooks
 ```
 
+To avoid OS inconsistencies, we use Docker. Please ensure it is installed on your local machine, otherwise the installation will fail.
+
 Once installed, GitLeaks will automatically check your repository for secrets on every commit.
 If any leaks are detected, a report will be generated at: `gitleaks-report.json`. This file is added to `.gitignore`
 
 Please resolve any issues before committing and try again.
 The configuration file can be found at: `scripts/githooks/.gitleaks.toml`
+
 
 For more information about GitLeaks, visit the [official GitHub repository](https://github.com/gitleaks).
