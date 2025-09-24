@@ -107,14 +107,14 @@ This section shows the targets used to build and push Docker images for differen
 ### **Security**
 #### **GitLeaks**
 
-We use Gitleaks for detecting and preventing hardcoded secrets like passwords, api keys, and tokens
-To start using, please execute next command:
+We use Gitleaks for detecting and preventing hardcoded secrets like passwords, api keys, and tokens.
+To start using, please execute the next command:
 
 ```bash
 make install_hooks
 ```
 
-To avoid OS inconsistencies, we use Docker. Please ensure it is installed on your local machine, otherwise the installation will fail.
+To avoid OS inconsistencies, we use Docker. Please ensure it is installed on your local machine; otherwise, the installation will fail.
 
 Once installed, GitLeaks will automatically check your repository for secrets on every commit.
 If any leaks are detected, a report will be generated at: `gitleaks-report.json`. This file is added to `.gitignore`
