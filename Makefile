@@ -67,4 +67,3 @@ clean:
 
 install_hooks:
 	sh scripts/githooks/install-hooks.sh
-	
