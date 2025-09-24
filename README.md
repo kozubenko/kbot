@@ -104,9 +104,11 @@ This section shows the targets used to build and push Docker images for differen
 | `push_windows`            | Pushes the Windows image to the registry.      |
 
 
+### **Security**
 #### **GitLeaks**
 
-Before using GitLeaks, install the git hooks:
+We use Gitleaks for detecting and preventing hardcoded secrets like passwords, api keys, and tokens
+To start using, please execute next command:
 
 ```bash
 make install_hooks
@@ -118,7 +120,6 @@ Once installed, GitLeaks will automatically check your repository for secrets on
 If any leaks are detected, a report will be generated at: `gitleaks-report.json`. This file is added to `.gitignore`
 
 Please resolve any issues before committing and try again.
-The configuration file can be found at: `scripts/githooks/.gitleaks.toml`
-
+The configuration file can be found at: `scripts/githooks/`
 
 For more information about GitLeaks, visit the [official GitHub repository](https://github.com/gitleaks).
