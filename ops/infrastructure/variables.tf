@@ -1,7 +1,13 @@
 variable "GOOGLE_PROJECT" {
   description = "The GCP project ID where the GKE cluster will be created"
   type        = string
-  default     = "infrastructure-kbot-project"
+  default     = "infrastructure-demo-project"
+}
+
+variable "GOOGLE_REGION" {
+  type        = string
+  default     = "us-central1-c"
+  description = "GCP region to use"
 }
 
 variable "GKE_NUM_NODES" {

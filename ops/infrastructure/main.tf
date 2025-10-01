@@ -1,9 +1,10 @@
 module "gke_cluster" {
   source = "github.com/den-vasyliev/tf-google-gke-cluster"
 
-  GOOGLE_PROJECT   = "infrastructure-demo-project"
+  GOOGLE_PROJECT   = var.GOOGLE_PROJECT
   GKE_CLUSTER_NAME = "demo"
   GKE_NUM_NODES    = 2
+  GOOGLE_REGION    = var.GOOGLE_REGION
 }
 module "tls_private_key" {
   source    = "github.com/den-vasyliev/tf-hashicorp-tls-keys"
@@ -30,4 +31,29 @@ module "flux_bootstrap" {
   config_host  = module.gke_cluster.config_host
   config_token = module.gke_cluster.config_token
   config_ca    = module.gke_cluster.config_ca
+}
+
+module "gke-workload-identity" {
+  source = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+
+  use_existing_k8s_sa = true
+  name                = "kustomize-controller"
+  namespace           = "flux-system"
+  project_id          = var.GOOGLE_PROJECT
+  cluster_name        = module.gke_cluster.name
+  location            = var.GOOGLE_REGION
+  annotate_k8s_sa     = true
+  roles = [
+    "roles/cloudkms.cryptoKeyEncrypterDecrypter",
+  ]
+}
+
+module "kms" {
+  source = "github.com/kozubenko/terraform-google-kms"
+
+  project_id      = var.GOOGLE_PROJECT
+  keyring         = "sops-flux"
+  location        = "global"
+  keys            = ["sops-key-flux"]
+  prevent_destroy = false
 }
